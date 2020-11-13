@@ -1,0 +1,39 @@
+cls
+##################################################################
+# Filename: LoanDepotJobApplication.ps1
+##################################################################
+#
+# Author:	Andrew Berk
+# Date:		11-13-2020
+#
+# Description:
+#
+# Returns the first duplicate character in a string
+#
+#
+# Todo/Issues:
+#
+#
+##################################################################
+
+#Variables
+$i = $null
+$duplicates = $null
+$string = 'abcdedcba'
+$stringarray = $string.toCharArray() #Converts string to array for easier processing
+
+#Iterates through $stringarray items to see if duplicates exist
+foreach ($i in $stringarray)
+	{
+	if (($stringarray -match $i).count -gt 1) #If duplicates exist, start building new list of duplicates
+		{
+		$duplicates += $i
+		if ($duplicates -match "$i{2,}") #Find first duplicate and output to screen
+			{
+				'Input String is "' + $string + '"'
+				'The first duplicate letter is "' + $i + '"'
+				Return
+			}
+		}
+	}
+
