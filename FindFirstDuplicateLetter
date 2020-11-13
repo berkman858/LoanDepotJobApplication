@@ -17,24 +17,33 @@ cls
 ##################################################################
 
 #Variables
-$i = $null
-$duplicates = $null
+$item = $null
+$duplicate = $null
+$duplicates = @()
 $string = 'abcdedcba'
-$stringarray = $string.toCharArray() #Converts string to array for easier processing
+$stringarray = $string.toCharArray()    #Converts string to array for easier processing
 
-#Iterates through $stringarray items to see if duplicates exist
-foreach ($i in $stringarray)
+foreach ($item in $stringarray)    #Iterates through $stringarray items to see if duplicates exist
 	{
-	if (($stringarray -match $i).count -gt 1) #If duplicates exist, start building new list of duplicates
+	if (($stringarray -match $item).count -ge 2)    #If duplicates exist, start building new list of duplicates
 		{
-		$duplicates += $i
-		if ($duplicates -match "$i{2,}") #Find first duplicate and output to screen
-			{
-				'Input String is "' + $string + '"'
-				'The first duplicate letter is "' + $i + '"'
-				Return
-			}
+		$duplicates += $item
 		}
 	}
 
-
+	foreach ($duplicate in $duplicates)    #Iterates through list of duplicates
+		{
+		try{
+			New-Variable -Name $Duplicate -Value 1 -ErrorAction Stop    #Tries to create a new variable using the character as the variable name. If the variable name is already taken then we know that this is the first duplicate.
+			}
+		catch
+			{
+			'Input String is "' + $string + '"'
+			'The first duplicate character is "' + $duplicate + '"'    #Output duplicate letter to screen
+			foreach ($variable in (Get-Variable).name)
+				{
+				Remove-Variable $variable -ErrorAction SilentlyContinue    #Cleans up variables used in this script
+				}
+			Return
+			}
+		}
