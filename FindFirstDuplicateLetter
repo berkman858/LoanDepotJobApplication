@@ -20,7 +20,7 @@ cls
 $item = $null
 $duplicate = $null
 $duplicates = @()
-$string = 'abcdedcba'
+$string = Read-Host "Input String"
 $stringarray = $string.toCharArray()    #Converts string to array for easier processing
 
 foreach ($item in $stringarray)    #Iterates through $stringarray items to see if duplicates exist
@@ -33,7 +33,8 @@ foreach ($item in $stringarray)    #Iterates through $stringarray items to see i
 
 	foreach ($duplicate in $duplicates)    #Iterates through list of duplicates
 		{
-		try{
+		try
+			{
 			New-Variable -Name $Duplicate -Value 1 -ErrorAction Stop    #Tries to create a new variable using the character as the variable name. If the variable name is already taken then we know that this is the first duplicate.
 			}
 		catch
